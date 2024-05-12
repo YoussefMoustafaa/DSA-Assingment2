@@ -13,22 +13,14 @@ is made up of three tree data structures which are 1 binary search tree,
 2 heaps and 3 avl and they are all node-based.
 Below is an example of what the item class must include, however more
 functionality can be added.
-class item
-{
-String itemname;
-string category;
-Int price;
-public:
-item(string, string, int);
-bool operator<(const item&);
-void print();
-};
 
 The program will implement the three tree data structures as following:
 1) A Menu that allow user to choose which non linear structure:
 
 i. Binary Search Trees (BST)
+
 ii. Heaps
+
 iii. AVL Trees
 
 2) Each tree should have its own mini menu:
@@ -36,6 +28,7 @@ The mini-menu has all the operation that are applied the tree
 structures:
 
 I. Add item data,
+
 II. Remove item data,
 
 Page 1 of 3
@@ -43,14 +36,19 @@ Page 1 of 3
 Data Structure - Assignment #2
 
 III. Display the item data normally
+
 IV. Display all the items sorted by their name
 ascending
+
 V. Display all the items sorted by their name
 descending,
+
 VI. Display all the items sorted by their prices
 ascending
+
 VII. Display all the items sorted by their prices
 descending.
+
 
 Note: For Heap, the sorting is done using, Min Heap, Max Heap and
 Heap sort
