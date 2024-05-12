@@ -14,7 +14,7 @@ private:
     string category;
     int price;
 public:
-
+    Item();
     Item(const string &itemName, const string &category, int price);
 
     bool operator<(const Item&);

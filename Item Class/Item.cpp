@@ -44,3 +44,9 @@ bool Item::operator<(const Item &st)
 {
     return this->price < st.price;
 }
+
+Item::Item() {
+    this->price=0;
+    this->itemName="";
+    this->category="";
+}

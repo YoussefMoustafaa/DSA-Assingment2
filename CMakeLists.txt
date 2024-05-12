@@ -8,4 +8,6 @@ include_directories("Item Class")
 add_executable(DSA_Assingment2
         "Item Class/Item.cpp"
         "Item Class/Item.h"
-        main.cpp)
+        main.cpp
+        "Binary Search Trees (BST)/BinarySearchTree.h"
+        "AVL Trees/AVLTree.cpp")

@@ -1,0 +1,14 @@
+//
+// Created by mahmoud on 5/12/2024.
+//
+
+#ifndef DSA_ASSINGMENT2_BINARYSEARCHTREE_H
+#define DSA_ASSINGMENT2_BINARYSEARCHTREE_H
+
+
+class BinarySearchTree {
+
+};
+
+
+#endif //DSA_ASSINGMENT2_BINARYSEARCHTREE_H
