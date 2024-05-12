@@ -4,7 +4,9 @@ a program that will allow users the ability to order items from a
 supermarket online. The Item will consist of three attributes.
 
 ● Item Name
+
 ● It’s category
+
 ● Item price
 
 For the Item creation, there must be an item class where objects are part of
