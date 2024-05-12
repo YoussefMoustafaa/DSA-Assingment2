@@ -31,10 +31,6 @@ I. Add item data,
 
 II. Remove item data,
 
-Page 1 of 3
-
-Data Structure - Assignment #2
-
 III. Display the item data normally
 
 IV. Display all the items sorted by their name
