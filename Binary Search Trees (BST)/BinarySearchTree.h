@@ -1,14 +1,41 @@
-//
-// Created by mahmoud on 5/12/2024.
-//
+#include <iostream>
+#include <cassert>
 
-#ifndef DSA_ASSINGMENT2_BINARYSEARCHTREE_H
-#define DSA_ASSINGMENT2_BINARYSEARCHTREE_H
-
-
-class BinarySearchTree {
-
+template <class T>
+struct node
+{
+    T data;
+    node<T> *left;
+    node<T> *right;
+    node()
+    {
+        left = NULL;
+        right = NULL;
+    }
 };
 
+template <class T>
+class BinarySearchTree
+{
+private:
+    node<T> *root;
+    void inorder(node<T> *);
+    void preorder(node<T> *);
+    void postorder(node<T> *);
+    void deleteFromTree(node<T> *);
 
-#endif //DSA_ASSINGMENT2_BINARYSEARCHTREE_H
+public:
+    BinarySearchTree();
+    void inorderTraversal();
+    void preorderTraversal();
+    void postorderTraversal();
+    bool isEmpty();
+    void insert(T data);
+    bool search(T item);
+    void remove(T data);
+};
+
+//*******************************************
+// class BinarySearchTreeForItem : BinarySearchTree<Item>
+// {
+// };
