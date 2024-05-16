@@ -400,7 +400,6 @@ template<class T>
 void MinHeap<T>::ascSort() {
     MaxHeap<T> temp;
 
-
     temp = *this;
 
 
@@ -412,48 +411,48 @@ void MinHeap<T>::ascSort() {
 
     *this = temp;
 }
-int main() {
-    MaxHeap<int> morio;
-    morio.insert(5);
-    morio.insert(4);
-    morio.insert(3);
-    morio.insert(2);
-    morio.insert(1);
-    morio.insert(9);
-    morio.delet();
-    morio.display();
-    morio.heapSort();
-    morio.display();
-    morio.ascSort();
-    morio.display();
-    morio.desSort();
-    morio.display();
-
-    cout<<endl<<endl;
-//    int arr[5] = { 6 , 1 , 2, 3, 4};
-//    MaxHeap<int> jj(arr , 5);
-//    jj.display();
-//    MinHeap<int> gg(arr, 5);
-//    gg.display();
-//    morio.insertMaxHeap(9);
-//    morio.displayMaxHeap();
+//int main() {
+//    MaxHeap<int> morio;
+//    morio.insert(5);
+//    morio.insert(4);
+//    morio.insert(3);
+//    morio.insert(2);
+//    morio.insert(1);
+//    morio.insert(9);
+//    morio.delet();
+//    morio.display();
+//    morio.heapSort();
+//    morio.display();
+//    morio.ascSort();
+//    morio.display();
+//    morio.desSort();
+//    morio.display();
+//
 //    cout<<endl<<endl;
-cout<<endl<<endl;
-    MinHeap<int> morio2;
-    morio2.insert(5);
-    morio2.insert(4);
-    morio2.insert(3);
-    morio2.insert(2);
-    morio2.insert(1);
-    morio2.insert(9);
-//    morio2.delet();
-    morio2.display();
-    morio2.heapSort();
-    morio2.display();
-    morio2.desSort();
-    morio2.display();
-    morio2.ascSort();
-    morio2.display();
-
-
-}
+////    int arr[5] = { 6 , 1 , 2, 3, 4};
+////    MaxHeap<int> jj(arr , 5);
+////    jj.display();
+////    MinHeap<int> gg(arr, 5);
+////    gg.display();
+////    morio.insertMaxHeap(9);
+////    morio.displayMaxHeap();
+////    cout<<endl<<endl;
+//cout<<endl<<endl;
+//    MinHeap<int> morio2;
+//    morio2.insert(5);
+//    morio2.insert(4);
+//    morio2.insert(3);
+//    morio2.insert(2);
+//    morio2.insert(1);
+//    morio2.insert(9);
+////    morio2.delet();
+//    morio2.display();
+//    morio2.heapSort();
+//    morio2.display();
+//    morio2.desSort();
+//    morio2.display();
+//    morio2.ascSort();
+//    morio2.display();
+//
+//
+//}

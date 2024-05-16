@@ -14,6 +14,9 @@ private:
     string category;
     int price;
 public:
+    bool operator==(const Item& other) const {
+        return price == other.price;
+    }
     Item();
     Item(const string &itemName, const string &category, int price);
 
