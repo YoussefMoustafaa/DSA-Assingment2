@@ -1,41 +1,41 @@
 #include <iostream>
+#include <functional>
 #include <cassert>
 
+using namespace std;
+
 template <class T>
-struct node
+struct nodeType
 {
     T data;
-    node<T> *left;
-    node<T> *right;
-    node()
-    {
-        left = NULL;
-        right = NULL;
-    }
+    nodeType *left;
+    nodeType *right;
 };
 
 template <class T>
-class BinarySearchTree
+class binarySearchTreeType
+
 {
 private:
-    node<T> *root;
-    void inorder(node<T> *);
-    void preorder(node<T> *);
-    void postorder(node<T> *);
-    void deleteFromTree(node<T> *);
+    nodeType<T> *root;
+    function<int(const T &, const T &)> compare;
+    void clear(nodeType<T> *&p);
+    void inorder(nodeType<T> *p);
+    void preorder(nodeType<T> *p);
+    void postorder(nodeType<T> *p);
+    void deleteFromTree(nodeType<T> *&p);
+    bool searchRecPriv(nodeType<T> *, T);
 
 public:
-    BinarySearchTree();
+    bool isEmpty();
+    bool search(T);
+    bool searchRec(T);
+    void insert(T);
+    void remove(T);
     void inorderTraversal();
     void preorderTraversal();
     void postorderTraversal();
-    bool isEmpty();
-    void insert(T data);
-    bool search(T item);
-    void remove(T data);
+    void clearTree();
+    binarySearchTreeType(function<int(const T &, const T &)> comp = less<T>());
+    ~binarySearchTreeType();
 };
-
-//*******************************************
-// class BinarySearchTreeForItem : BinarySearchTree<Item>
-// {
-// };
