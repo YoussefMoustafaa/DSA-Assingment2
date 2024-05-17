@@ -2,6 +2,27 @@
 #include "Binary Search Trees (BST)/BinarySearchTree.h"
 #include "AVL Trees/AVLTree.h"
 #include "Heap/main.cpp"
+
+auto comparePrice = [](const Item &a, const Item &b)
+{
+    if (a.getPrice() < b.getPrice())
+        return -1;
+    else if (a.getPrice() == b.getPrice())
+        return 0;
+    else
+        return 1;
+};
+auto compareName = [](const Item &a, const Item &b)
+{
+    if (a.getItemName() < b.getItemName())
+        return -1;
+    else if (a.getItemName() == b.getItemName())
+        return 0;
+    else
+        return 1;
+};
+
+
 ifstream file("C:\\Users\\001\\Documents\\GitHub\\DSA-Assingment2\\Output files\\items.txt");
 MinHeap<Item>minHeapItems;
 MaxHeap<Item>maxHeapItem;
