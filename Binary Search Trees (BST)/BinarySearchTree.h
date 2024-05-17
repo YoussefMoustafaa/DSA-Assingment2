@@ -14,7 +14,6 @@ struct nodeType
 
 template <class T>
 class binarySearchTreeType
-
 {
 private:
     nodeType<T> *root;
@@ -23,7 +22,8 @@ private:
     void inorder(nodeType<T> *p);
     void preorder(nodeType<T> *p);
     void postorder(nodeType<T> *p);
-    void deleteFromTree(nodeType<T> *&p);
+    void descendingorder(nodeType<T> *p);
+    // void deleteFromTree(nodeType<T> *&p);
     bool searchRecPriv(nodeType<T> *, T);
 
 public:
@@ -35,6 +35,7 @@ public:
     void inorderTraversal();
     void preorderTraversal();
     void postorderTraversal();
+    void descendingorderTraversal();
     void clearTree();
     binarySearchTreeType(function<int(const T &, const T &)> comp = less<T>());
     ~binarySearchTreeType();

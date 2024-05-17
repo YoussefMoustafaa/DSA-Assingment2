@@ -4,14 +4,14 @@
 template <class T>
 binarySearchTreeType<T>::binarySearchTreeType(function<int(const T &, const T &)> comp)
 {
-    root = NULL;
+    root = nullptr;
     compare = comp;
 }
 
 template <class T>
 bool binarySearchTreeType<T>::isEmpty()
 {
-    return (root == NULL);
+    return (root == nullptr);
 }
 
 template <class T>
@@ -33,9 +33,15 @@ void binarySearchTreeType<T>::postorderTraversal()
 }
 
 template <class T>
+void binarySearchTreeType<T>::descendingorderTraversal()
+{
+    descendingorder(root);
+}
+
+template <class T>
 void binarySearchTreeType<T>::inorder(nodeType<T> *p)
 {
-    if (p != NULL)
+    if (p != nullptr)
     {
         inorder(p->left);
         cout << p->data << " ";
@@ -46,7 +52,7 @@ void binarySearchTreeType<T>::inorder(nodeType<T> *p)
 template <class T>
 void binarySearchTreeType<T>::preorder(nodeType<T> *p)
 {
-    if (p != NULL)
+    if (p != nullptr)
     {
         cout << p->data << " ";
         preorder(p->left);
@@ -57,7 +63,7 @@ void binarySearchTreeType<T>::preorder(nodeType<T> *p)
 template <class T>
 void binarySearchTreeType<T>::postorder(nodeType<T> *p)
 {
-    if (p != NULL)
+    if (p != nullptr)
     {
         postorder(p->left);
         postorder(p->right);
@@ -66,14 +72,25 @@ void binarySearchTreeType<T>::postorder(nodeType<T> *p)
 }
 
 template <class T>
+void binarySearchTreeType<T>::descendingorder(nodeType<T> *p)
+{
+    if (p != nullptr)
+    {
+        descendingorder(p->right);
+        cout << p->data << " ";
+        descendingorder(p->left);
+    }
+}
+
+template <class T>
 void binarySearchTreeType<T>::clear(nodeType<T> *&p)
 {
-    if (p != NULL)
+    if (p != nullptr)
     {
         clear(p->left);
         clear(p->right);
         delete p;
-        p = NULL;
+        p = nullptr;
     }
 }
 
@@ -94,15 +111,15 @@ bool binarySearchTreeType<T>::search(T item)
 {
     nodeType<T> *current = root;
 
-    while (current != NULL)
+    while (current != nullptr)
     {
         int compResult = compare(item, current->data);
-        if (compResult < 0)
-            current = current->left;
-        else if (compResult > 0)
-            current = current->right;
-        else
+        if (compResult == 0)
             return true;
+        else if (compResult < 0)
+            current = current->left;
+        else
+            current = current->right;
     }
 
     return false;
@@ -117,12 +134,13 @@ bool binarySearchTreeType<T>::searchRec(T item)
 template <class T>
 bool binarySearchTreeType<T>::searchRecPriv(nodeType<T> *p, T item)
 {
-    if (p == NULL)
+    if (p == nullptr)
         return false;
+
     int compResult = compare(p->data, item);
     if (compResult == 0)
         return true;
-    else if (compResult > 0)
+    else if (compResult < 0)
         return searchRecPriv(p->left, item);
     else
         return searchRecPriv(p->right, item);
@@ -131,40 +149,31 @@ bool binarySearchTreeType<T>::searchRecPriv(nodeType<T> *p, T item)
 template <class T>
 void binarySearchTreeType<T>::insert(T item)
 {
-    nodeType<T> *current;      // pointer to traverse the tree
-    nodeType<T> *trailCurrent; // pointer behind current
-    nodeType<T> *newNode;      // pointer to create the node
+    nodeType<T> *current;
+    nodeType<T> *trailCurrent;
+    nodeType<T> *newNode;
 
     newNode = new nodeType<T>;
-    assert(newNode != NULL);
     newNode->data = item;
-    newNode->left = NULL;
-    newNode->right = NULL;
+    newNode->left = nullptr;
+    newNode->right = nullptr;
 
-    if (root == NULL)
+    if (root == nullptr)
         root = newNode;
     else
     {
         current = root;
-        trailCurrent = NULL;
+        trailCurrent = nullptr;
 
-        while (current != NULL)
+        while (current != nullptr)
         {
             trailCurrent = current;
-
             int compResult = compare(item, current->data);
             if (compResult < 0)
                 current = current->left;
-            else if (compResult > 0)
-                current = current->right;
             else
-            {
-                cout << "The insert item is already in the list -- ";
-                cout << "duplicates are not allowed." << endl;
-                delete newNode;
-                return;
-            }
-        } // end while
+                current = current->right;
+        }
 
         int compResult = compare(item, trailCurrent->data);
         if (compResult < 0)
@@ -177,98 +186,83 @@ void binarySearchTreeType<T>::insert(T item)
 template <class T>
 void binarySearchTreeType<T>::remove(T item)
 {
-    nodeType<T> *current;      // pointer to traverse the tree
-    nodeType<T> *trailCurrent; // pointer behind current
+    nodeType<T> *current = root;
+    nodeType<T> *parent = nullptr;
     bool found = false;
 
-    if (root == NULL)
+    if (root == nullptr)
     {
         cout << "Cannot delete from the empty tree." << endl;
         return;
     }
 
-    current = root;
-    trailCurrent = root;
-
-    while (current != NULL && !found)
+    // Find the node to be deleted and its parent
+    while (current != nullptr && !found)
     {
         int compResult = compare(current->data, item);
         if (compResult == 0)
             found = true;
         else
         {
-            trailCurrent = current;
-
+            parent = current;
             if (compResult < 0)
                 current = current->left;
             else
                 current = current->right;
         }
-    } // end while
+    }
 
-    if (current == NULL)
+    if (!found)
+    {
         cout << "The delete item is not in the tree." << endl;
-    else if (found)
+        return;
+    }
+
+    // Case 1: Node to be deleted is a leaf node
+    if (current->left == nullptr && current->right == nullptr)
     {
-        if (current == root)
-            deleteFromTree(root);
+        if (parent == nullptr) // Root node
+            root = nullptr;
+        else if (parent->left == current)
+            parent->left = nullptr;
         else
-        {
-            int compResult = compare(trailCurrent->data, item);
-            if (compResult > 0)
-                deleteFromTree(trailCurrent->left);
-            else
-                deleteFromTree(trailCurrent->right);
-        }
-    }
-    else
-        cout << "The delete item is not in the tree." << endl;
-}
-
-template <class T>
-void binarySearchTreeType<T>::deleteFromTree(nodeType<T> *&p)
-{
-    nodeType<T> *current;      // pointer to traverse
-                               // the tree
-    nodeType<T> *trailCurrent; // pointer behind current
-    nodeType<T> *temp;         // pointer to delete the node
-
-    if (p->left == NULL && p->right == NULL)
-    {
-        delete p;
-        p = NULL;
-    }
-    else if (p->left == NULL)
-    {
-        temp = p;
-        p = p->right;
-        delete temp;
-    }
-    else if (p->right == NULL)
-    {
-        temp = p;
-        p = p->left;
-        delete temp;
-    }
-    else
-    {
-        current = p->left;
-        trailCurrent = NULL;
-
-        while (current->right != NULL)
-        {
-            trailCurrent = current;
-            current = current->right;
-        } // end while
-
-        p->data = current->data;
-
-        if (trailCurrent == NULL) // current did not move;
-                                  // current == p->left; adjust p
-            p->left = current->left;
-        else
-            trailCurrent->right = current->left;
-
+            parent->right = nullptr;
         delete current;
+    }
+    // Case 2: Node to be deleted has one child
+    else if (current->left == nullptr || current->right == nullptr)
+    {
+        nodeType<T> *child = (current->left != nullptr) ? current->left : current->right;
+        if (parent == nullptr) // Root node
+            root = child;
+        else if (parent->left == current)
+            parent->left = child;
+        else
+            parent->right = child;
+        delete current;
+    }
+    // Case 3: Node to be deleted has two children
+    else
+    {
+        // Find the successor node
+        nodeType<T> *successor = current->right;
+        parent = current;
+
+        while (successor->left != nullptr)
+        {
+            parent = successor;
+            successor = successor->left;
+        }
+
+        // Copy the data of the successor to the current node
+        current->data = successor->data;
+
+        // Delete the successor node (it will have no left child)
+        if (parent->left == successor)
+            parent->left = successor->right;
+        else
+            parent->right = successor->right;
+
+        delete successor;
     }
 }
