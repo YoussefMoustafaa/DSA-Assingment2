@@ -1,7 +1,7 @@
 #include "Item Class/Item.h"
 #include "Binary Search Trees (BST)/BinarySearchTree.cpp"
 #include "AVL Trees/AVLTree.h"
-#include "Heap/main.cpp"
+#include "Heap/Heap.cpp"
 ifstream file("C:\\Users\\001\\Documents\\GitHub\\DSA-Assingment2\\Output files\\items.txt");
 auto comparePrice = [](const Item &a, const Item &b)
 {
@@ -57,13 +57,14 @@ void readItems(ifstream &fileName, TreeType &tree)
     }
     fileName.open("C:\\Users\\001\\Documents\\GitHub\\DSA-Assingment2\\Output files\\items.txt");
 }
+Item itemToBeDeleted;
 void BinaryTreeMenu()
 {
     // initiating instances
     binarySearchTreeType<Item> BSTname(compareName);
     binarySearchTreeType<Item> BSTprice(comparePrice);
     string nameOfDeleted;
-    Item itemToBeDeleted;
+
     bool loop = true;
 
     while (loop)
@@ -137,7 +138,7 @@ void BinaryTreeMenu()
         case 3:
             for (auto i : vectorForNormalInput)
             {
-                cout << i.getItemName() << " " << i.getCategory() << " " << i.getPrice() << endl;
+                cout << i << endl;
             }
             break;
         case 4:
@@ -163,8 +164,11 @@ void BinaryTreeMenu()
 }
 
 
-MinHeap<Item> minHeapItems;
-MaxHeap<Item> maxHeapItem;
+MinHeapName minHeapItemsName;
+MinHeapPrice minHeapItemPrice;
+MaxHeapPrice maxHeapItemPrice;
+MaxHeapName maxHeapItemsName;
+string n;
 void minHeapMenu()
 {
     cout << "1-Add item\n"
@@ -179,6 +183,7 @@ void minHeapMenu()
     cin >> x;
     Item newItem;
     string name;
+    string nameOfDeleted;
     string category;
     int price;
     switch (x)
@@ -190,7 +195,9 @@ void minHeapMenu()
         cin >> y;
         if (y == 1)
         {
-            readItems(file, minHeapItems);
+
+            readItems(file,minHeapItemsName );
+            readItems(file,minHeapItemPrice);
             cout << "inserted!\n";
         }
         else if (y == 2)
@@ -204,33 +211,70 @@ void minHeapMenu()
             cout << "Please enter item's price:\n";
             cin >> price;
             newItem.setPrice(price);
-            minHeapItems.insert(newItem);
+            minHeapItemsName.insert(newItem);
+            minHeapItemPrice.insert(newItem);
+            vectorForNormalInput.push_back(newItem);
         }
         minHeapMenu();
         break;
     case 2:
-        minHeapItems.delet();
-        cout << "Last element removed successfully!\n";
-        minHeapMenu();
-        break;
+                cout << "enter the name of the item you want to delete\n";
+                cin >> nameOfDeleted;
+                itemToBeDeleted.setItemName("not Found");
+            for (auto i : vectorForNormalInput)
+            {
+                if (i.getItemName() == nameOfDeleted)
+                {
+                    itemToBeDeleted = i;
+                    break;
+                }
+            }
+                if (itemToBeDeleted.getItemName() != "not Found")
+                {
+                    minHeapItemsName.deletee(nameOfDeleted);
+                    minHeapItemPrice.deletee(nameOfDeleted);
+                    vectorForNormalInput.erase(remove(vectorForNormalInput.begin()
+                                                      , vectorForNormalInput.end(),
+                                                      itemToBeDeleted),
+                                               vectorForNormalInput.end());
+                    cout << "The element removed successfully!\n";
+                }
+                else
+                {
+                    cout << "item not found\n";
+                }
+
+            minHeapMenu();
+            break;
     case 3:
-        minHeapItems.display();
+        for (auto i : vectorForNormalInput)
+        {
+            cout << i << endl;
+        }
         minHeapMenu();
         break;
     case 4:
-        //minHeapItems.ascSort();
+        minHeapItemsName.ascSort();
+        minHeapItemsName.display();
         minHeapMenu();
         break;
 
     case 5:
+        minHeapItemsName.desSort();
+        minHeapItemsName.display();
+
         minHeapMenu();
 
         break;
     case 6:
+        minHeapItemPrice.ascSort();
+        minHeapItemPrice.display();
+
         minHeapMenu();
         break;
-        minHeapMenu();
     case 7:
+        minHeapItemPrice.desSort();
+        minHeapItemPrice.display();
         minHeapMenu();
         break;
     case 8:
@@ -256,65 +300,106 @@ void maxHeapMenu()
     Item newItem;
     string name;
     string category;
+    string nameOfDeleted;
     int price;
-    switch (x)
-    {
-    case 1:
-        cout << "1-Insert data from file\n";
-        cout << "2-Insert data manually\n";
-        int y;
-        cin >> y;
-        if (y == 1)
+        switch (x)
         {
-            readItems(file, minHeapItems);
-            cout << "inserted!\n";
-        }
-        else if (y == 2)
-        {
-            cout << "Please enter item's name:\n";
-            cin >> name;
-            newItem.setItemName(name);
-            cout << "Please enter item's category:\n";
-            cin >> category;
-            newItem.setCategory(category);
-            cout << "Please enter item's price:\n";
-            cin >> price;
-            newItem.setPrice(price);
-            cout << newItem;
-        }
-        minHeapMenu();
-        break;
-    case 2:
-        minHeapItems.delet();
-        cout << "Last element removed successfully!\n";
-        minHeapMenu();
-        break;
-    case 3:
-        minHeapItems.display();
-        minHeapMenu();
-        break;
-    case 4:
-        minHeapMenu();
-        break;
+            case 1:
+                cout << "1-Insert data from file\n";
+                cout << "2-Insert data manually\n";
+                int y;
+                cin >> y;
+                if (y == 1)
+                {
 
-    case 5:
-        minHeapMenu();
+                    readItems(file,maxHeapItemsName );
+                    readItems(file,maxHeapItemPrice);
+                    cout << "inserted!\n";
+                }
+                else if (y == 2)
+                {
+                    cout << "Please enter item's name:\n";
+                    cin >> name;
+                    newItem.setItemName(name);
+                    cout << "Please enter item's category:\n";
+                    cin >> category;
+                    newItem.setCategory(category);
+                    cout << "Please enter item's price:\n";
+                    cin >> price;
+                    newItem.setPrice(price);
+                    maxHeapItemsName.insert(newItem);
+                    maxHeapItemPrice.insert(newItem);
+                    vectorForNormalInput.push_back(newItem);
+                }
+                maxHeapMenu();
+                break;
+        case 2:
+            cout << "enter the name of the item you want to delete\n";
+                cin >> nameOfDeleted;
+                itemToBeDeleted.setItemName("not Found");
+                for (auto i : vectorForNormalInput)
+                {
+                    if (i.getItemName() == nameOfDeleted)
+                    {
+                        itemToBeDeleted = i;
+                        break;
+                    }
+                }
+                if (itemToBeDeleted.getItemName() != "not Found")
+                {
+                    maxHeapItemsName.deletee(nameOfDeleted);
+                    maxHeapItemPrice.deletee(nameOfDeleted);
+                    vectorForNormalInput.erase(remove(vectorForNormalInput.begin()
+                                                       , vectorForNormalInput.end(),
+                                                      itemToBeDeleted),
+                                               vectorForNormalInput.end());
+                    cout << "The element removed successfully!\n";
+                }
+                else
+                {
+                    cout << "item not found\n";
+                }
+            maxHeapMenu();
+            break;
+        case 3:
+            for (auto i : vectorForNormalInput)
+            {
+                cout << i << endl;
+            }
+            maxHeapMenu();
+            break;
+        case 4:
 
-        break;
-    case 6:
-        minHeapMenu();
-        break;
-        minHeapMenu();
-    case 7:
-        minHeapMenu();
-        break;
-    case 8:
-        break;
-    default:
-        cout << "Invalid option make sure you choose number 1 or 2\n\n";
-        minHeapMenu();
-        break;
-    }
+            maxHeapItemsName.ascSort();
+
+            maxHeapItemsName.display();
+
+            maxHeapMenu();
+            break;
+
+        case 5:
+            maxHeapItemsName.desSort();
+            maxHeapItemsName.display();
+            maxHeapMenu();
+
+            break;
+        case 6:
+            maxHeapItemPrice.ascSort();
+            maxHeapItemPrice.display();
+            maxHeapMenu();
+            break;
+        case 7:
+            maxHeapItemPrice.desSort();
+            maxHeapItemPrice.display();
+            maxHeapMenu();
+            break;
+        case 8:
+            break;
+        default:
+            cout << "Invalid option make sure you choose number 1 or 2\n\n";
+            maxHeapMenu();
+            break;
+        }
 }
 void heapMenu()
 {
