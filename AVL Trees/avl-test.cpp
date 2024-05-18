@@ -1,16 +1,16 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include <bits/stdc++.h>
 
+using namespace std;
 
 struct Node
 {
-    struct Node *lchild;
+     Node *lchild;
     int data;
     int height;
-    struct Node *rchild;
-} *root = NULL;
+     Node *rchild;
+} *root = nullptr;
 
-int BalanceFactor(struct Node *p)
+int BalanceFactor( Node *p)
 {
     int hl, hr;
 
@@ -21,7 +21,7 @@ int BalanceFactor(struct Node *p)
 }
 
 
-int NodeHeight(struct Node *p)
+int NodeHeight(Node *p)
 {
     int hl, hr;
     hl = (p && p->lchild) ? p->lchild->height:0;
@@ -31,10 +31,10 @@ int NodeHeight(struct Node *p)
 }
 
 
-struct Node *LLRotation(struct Node *p)
+ Node *LLRotation( Node *p)
 {
-    struct Node *pl = p->lchild;
-    struct Node *plr = pl->rchild;
+     Node *pl = p->lchild;
+     Node *plr = pl->rchild;
 
     pl->rchild = p;
     p->lchild = plr;
@@ -47,10 +47,10 @@ struct Node *LLRotation(struct Node *p)
     return pl;
 }
 
-struct Node *LRRotation(struct Node *p)
+ Node *LRRotation( Node *p)
 {
-    struct Node *pl = p->lchild;
-    struct Node *plr = pl->rchild;
+     Node *pl = p->lchild;
+     Node *plr = pl->rchild;
 
     pl->rchild = plr->lchild;
     p->lchild = plr->rchild;
@@ -69,10 +69,10 @@ struct Node *LRRotation(struct Node *p)
 }
 
 
-struct Node* RRRotation(struct Node *p)
+ Node* RRRotation( Node *p)
 {
-    struct Node *pr = p->rchild;
-    struct Node *prl = pr->lchild;
+     Node *pr = p->rchild;
+     Node *prl = pr->lchild;
 
     pr->lchild = p;
     p->rchild = prl;
@@ -87,10 +87,10 @@ struct Node* RRRotation(struct Node *p)
 }
 
 
-struct Node *RLRotation(struct Node *p)
+ Node *RLRotation( Node *p)
 {
-    struct Node *pr = p->rchild;
-    struct Node *prl = pr->lchild;
+     Node *pr = p->rchild;
+     Node *prl = pr->lchild;
 
     p->rchild = prl->lchild;
     pr->lchild = prl->rchild;
@@ -109,12 +109,12 @@ struct Node *RLRotation(struct Node *p)
 }
 
 
-struct Node *RInsert(struct Node *p, int key)
+ Node *RInsert( Node *p, int key)
 {
-    struct Node *t = NULL;
+     Node *t = NULL;
 
     if (p == NULL) {
-        t = (struct Node*)malloc(sizeof(struct Node));
+        t = new Node();
         t->data = key;
         t->height = 1;
         t->lchild = t->rchild = NULL;
@@ -142,13 +142,11 @@ struct Node *RInsert(struct Node *p, int key)
 
 
 
-
-
 int main() {
 
     root = RInsert(root, 10);
-    RInsert(root, 30);
     RInsert(root, 20);
+    RInsert(root, 30);
 
     return 0;
 }
