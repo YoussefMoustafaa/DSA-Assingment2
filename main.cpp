@@ -21,6 +21,14 @@ auto compareName = [](const Item &a, const Item &b)
     else
         return 1;
 };
+auto compareAVLPrice = [](const Item &a, const Item &b)
+{
+    return a.getPrice() < b.getPrice();
+};
+auto compareAVLName = [](const Item &a, const Item &b)
+{
+    return a.getItemName() < b.getItemName();
+};
 bool opened = 0;
 vector<Item> vectorForNormalInput; // for sorting items the order they were entered in
 template <typename TreeType>
@@ -173,7 +181,7 @@ void BinaryTreeMenu()
         case 3:
             for (auto i : vectorForNormalInput)
             {
-                cout << i << endl;
+                cout << i;
             }
             break;
         case 4:
@@ -198,8 +206,8 @@ void BinaryTreeMenu()
     }
 }
 
-AVLTree<Item> AvlTreeName(compareName);
-AVLTree<Item> AvlTreePrice(comparePrice);
+AVLTree<Item> AvlTreeName(compareAVLName);
+AVLTree<Item> AvlTreePrice(compareAVLPrice);
 void AVLTreeMenu()
 {
 
@@ -279,7 +287,7 @@ void AVLTreeMenu()
             case 3:
                 for (auto i : vectorForNormalInput)
                 {
-                    cout << i << endl;
+                    cout << i;
                 }
                 break;
             case 4:
