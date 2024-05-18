@@ -21,7 +21,7 @@ auto compareName = [](const Item &a, const Item &b)
     else
         return 1;
 };
-
+bool opened = 0;
 vector<Item> vectorForNormalInput; // for sorting items the order they were entered in
 template <typename TreeType>
 void readItems(ifstream &fileName, TreeType &tree)
@@ -46,8 +46,14 @@ void readItems(ifstream &fileName, TreeType &tree)
     fileName.close();
     for (int i = 0; i < size; i++)
     {
-        vectorForNormalInput.push_back(itemList[i]);
         tree.insert(itemList[i]);
+    }
+    if(!opened){
+        opened=1;
+        for (int i = 0; i < size; i++)
+        {
+            vectorForNormalInput.push_back(itemList[i]);
+        }
     }
     fileName.open("C:\\Users\\001\\Documents\\GitHub\\DSA-Assingment2\\Output files\\items.txt");
 }
