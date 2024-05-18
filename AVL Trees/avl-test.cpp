@@ -4,13 +4,13 @@ using namespace std;
 
 struct Node
 {
-     Node *lchild;
+    Node *lchild;
     int data;
     int height;
-     Node *rchild;
+    Node *rchild;
 } *root = nullptr;
 
-int BalanceFactor( Node *p)
+int BalanceFactor(Node *p)
 {
     int hl, hr;
 
@@ -33,8 +33,8 @@ int NodeHeight(Node *p)
 
  Node *LLRotation( Node *p)
 {
-     Node *pl = p->lchild;
-     Node *plr = pl->rchild;
+    Node *pl = p->lchild;
+    Node *plr = pl->rchild;
 
     pl->rchild = p;
     p->lchild = plr;
@@ -49,8 +49,8 @@ int NodeHeight(Node *p)
 
  Node *LRRotation( Node *p)
 {
-     Node *pl = p->lchild;
-     Node *plr = pl->rchild;
+    Node *pl = p->lchild;
+    Node *plr = pl->rchild;
 
     pl->rchild = plr->lchild;
     p->lchild = plr->rchild;
@@ -71,8 +71,8 @@ int NodeHeight(Node *p)
 
  Node* RRRotation( Node *p)
 {
-     Node *pr = p->rchild;
-     Node *prl = pr->lchild;
+    Node *pr = p->rchild;
+    Node *prl = pr->lchild;
 
     pr->lchild = p;
     p->rchild = prl;
@@ -89,8 +89,8 @@ int NodeHeight(Node *p)
 
  Node *RLRotation( Node *p)
 {
-     Node *pr = p->rchild;
-     Node *prl = pr->lchild;
+    Node *pr = p->rchild;
+    Node *prl = pr->lchild;
 
     p->rchild = prl->lchild;
     pr->lchild = prl->rchild;
@@ -111,7 +111,7 @@ int NodeHeight(Node *p)
 
  Node *RInsert( Node *p, int key)
 {
-     Node *t = NULL;
+    Node *t = NULL;
 
     if (p == NULL) {
         t = new Node();
@@ -128,13 +128,15 @@ int NodeHeight(Node *p)
 
     p->height = NodeHeight(p);
 
+    int b = BalanceFactor(p);
+
     if (BalanceFactor(p) == 2 && BalanceFactor(p->lchild) == 1)
         return LLRotation(p);
     else if (BalanceFactor(p) == 2 && BalanceFactor(p->lchild) == -1)
         return LRRotation(p);
-    else if (BalanceFactor(p) == -2 && BalanceFactor(p->lchild) == -1)
+    else if (BalanceFactor(p) == -2 && BalanceFactor(p->rchild) == -1)
         return RRRotation(p);
-    else if (BalanceFactor(p) == -2 && BalanceFactor(p->lchild) == 1)
+    else if (BalanceFactor(p) == -2 && BalanceFactor(p->rchild) == 1)
         return RLRotation(p);
 
     return p;
@@ -144,9 +146,9 @@ int NodeHeight(Node *p)
 
 int main() {
 
-    root = RInsert(root, 10);
-    RInsert(root, 20);
+    root = RInsert(root, 40);
     RInsert(root, 30);
+    RInsert(root, 20);
 
     return 0;
 }
