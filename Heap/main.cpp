@@ -88,7 +88,7 @@ private:
     int position = 0 , size = 0 , z= 0 , flag = 0;
     vector<Item>heap;
     friend class MinHeapPrice;
-    void remove();
+    void remove(int i);
     void maxHeapify(int n);
     void buildingMaxHeapPrice ();
 public:
@@ -96,7 +96,7 @@ public:
     MaxHeapPrice(Item arr[] , int n);
     void insert(Item n);
     void display();
-    void deletee();
+    void deletee(string name);
     void heapSort();
     void desSort();
     void ascSort();
@@ -112,7 +112,7 @@ private:
     vector<Item>heap;
 //    vectorsorted;
     friend class MaxHeapPrice;
-    void remove();
+    void remove(int i);
     void minHeapify(int n);
     void buildingMinHeapPrice();
 public:
@@ -120,7 +120,7 @@ public:
     MinHeapPrice(Item arr[] , int n);
     void insert(Item n);
     void display();
-    void deletee();
+    void deletee(string name);
     void heapSort();
     void ascSort();
     void desSort();
@@ -176,12 +176,12 @@ void MaxHeapPrice::buildingMaxHeapPrice() {
 
 
 //
-void MaxHeapPrice::remove() {
-    Item temp = heap[0];
+void MaxHeapPrice::remove(int i = 0 ) {
+    Item temp = heap[i];
 
-    heap[0] = heap[--z];
+    heap[i] = heap[--z];
     int p , child;
-    p = 0 ;
+    p = i ;
     child = (p * 2) + 1 ;
     while(child < z){
         if(child + 1 < size) {
@@ -216,10 +216,17 @@ void MaxHeapPrice::maxHeapify(int n) {
 
 
 //
-void MaxHeapPrice::deletee() {
-    z = size;
-    remove();
-    size --;
+void MaxHeapPrice::deletee(string name) {
+    for(int i = 0 ; i < size ;i ++){
+        if(heap[i].getItemName() == name){
+            z = size;
+            remove(i);
+            size --;
+            break;
+        }
+    }
+    buildingMaxHeapPrice();
+
 
 }
 
@@ -353,11 +360,11 @@ void MinHeapPrice::minHeapify(int n ) {
 
 
 //
-void MinHeapPrice::remove() {
-    Item temp = heap[0];
-    heap[0] = heap[--z];
+void MinHeapPrice::remove(int i = 0) {
+    Item temp = heap[i];
+    heap[i] = heap[--z];
     int p , child;
-    p = 0 ;
+    p = i ;
     child = (p * 2) + 1 ;
     while(child < z){
         if(child + 1 < size) {
@@ -376,10 +383,16 @@ void MinHeapPrice::remove() {
 
 
 //
-void MinHeapPrice::deletee() {
-    z = size;
-    remove();
-    size --;
+void MinHeapPrice::deletee(string name) {
+    for(int i = 0 ; i < size ;i ++){
+        if(heap[i].getItemName() == name){
+            z = size;
+            remove(i);
+            size --;
+            break;
+        }
+    }
+    buildingMinHeapPrice();
 
 }
 
@@ -476,7 +489,7 @@ private:
     int position = 0 , size = 0 , z= 0 , flag = 0;
     vector<Item>heap;
     friend class MinHeapName;
-    void remove();
+    void remove(int i);
     void maxHeapify(int n);
     void buildingMaxHeapName ();
 public:
@@ -484,7 +497,7 @@ public:
     MaxHeapName(Item arr[] , int n);
     void insert(Item n);
     void display();
-    void deletee();
+    void deletee(string name);
     void heapSort();
     void desSort();
     void ascSort();
@@ -500,7 +513,7 @@ private:
     vector<Item>heap;
 //    vectorsorted;
     friend class MaxHeapName;
-    void remove();
+    void remove(int i);
     void minHeapify(int n);
     void buildingMinHeapName();
 public:
@@ -508,7 +521,7 @@ public:
     MinHeapName(Item arr[] , int n);
     void insert(Item n);
     void display();
-    void deletee();
+    void deletee(string name);
     void heapSort();
     void ascSort();
     void desSort();
@@ -564,12 +577,12 @@ void MaxHeapName::buildingMaxHeapName() {
 
 
 //
-void MaxHeapName::remove() {
-    Item temp = heap[0];
+void MaxHeapName::remove(int i = 0) {
+    Item temp = heap[i];
 
-    heap[0] = heap[--z];
+    heap[i] = heap[--z];
     int p , child;
-    p = 0 ;
+    p = i ;
     child = (p * 2) + 1 ;
     while(child < z){
         if(child + 1 < size) {
@@ -604,10 +617,16 @@ void MaxHeapName::maxHeapify(int n) {
 
 
 //
-void MaxHeapName::deletee() {
-    z = size;
-    remove();
-    size --;
+void MaxHeapName::deletee(string name) {
+    for(int i = 0 ; i < size ;i ++){
+        if(heap[i].getItemName() == name){
+            z = size;
+            remove(i);
+            size --;
+            break;
+        }
+    }
+    buildingMaxHeapName();
 
 }
 
@@ -741,11 +760,11 @@ void MinHeapName::minHeapify(int n ) {
 
 
 //
-void MinHeapName::remove() {
-    Item temp = heap[0];
-    heap[0] = heap[--z];
+void MinHeapName::remove(int i = 0) {
+    Item temp = heap[i];
+    heap[i] = heap[--z];
     int p , child;
-    p = 0 ;
+    p = i ;
     child = (p * 2) + 1 ;
     while(child < z){
         if(child + 1 < size) {
@@ -764,10 +783,16 @@ void MinHeapName::remove() {
 
 
 //
-void MinHeapName::deletee() {
-    z = size;
-    remove();
-    size --;
+void MinHeapName::deletee(string name) {
+    for(int i = 0 ; i < size ;i ++){
+        if(heap[i].getItemName() == name){
+            z = size;
+            remove(i);
+            size --;
+            break;
+        }
+    }
+    buildingMinHeapName();
 
 }
 
@@ -887,7 +912,7 @@ int main() {
     gu.setItemName("g");
     gu.setCategory("dakj");
     gu.setPrice(90);
-    MinHeapPrice morio;
+    MaxHeapName morio;
     morio.insert(gu);
     morio.insert(gm);
     morio.insert(gl);
@@ -895,17 +920,21 @@ int main() {
     morio.insert(gg);
     morio.insert(gj);
     morio.insert(gh);
-//    morio.deletee();
+    morio.heapSort();
+//    morio.ascSort();
 //    morio.display();
-//    morio.desSort();
+    morio.deletee("e");
+//    morio.deletee(string name);
     morio.display();
+//    morio.desSort();
+//    morio.display();
 //    morio.insert(5);
 //    morio.insert(4);
 //    morio.insert(3);
 //    morio.insert(2);
 //    morio.insert(1);
 //    morio.insert(9);
-//    morio.deletee();
+//    morio.deletee(string name);
 //    morio.display();
 //    morio.heapSort();
 //    morio.display();
@@ -931,7 +960,7 @@ int main() {
 //    morio2.insert(2);
 //    morio2.insert(1);
 //    morio2.insert(9);
-////    morio2.deletee();
+////    morio2.deletee(string name);
 //    morio2.display();
 //    morio2.heapSort();
 //    morio2.display();
