@@ -9,6 +9,6 @@ add_executable(DSA_Assingment2
         "Item Class/Item.cpp"
         "Item Class/Item.h"
         main.cpp
+        "AVL Trees/AVLTree.h"
         "Binary Search Trees (BST)/BinarySearchTree.h"
-        "AVL Trees/AVLTree.cpp"
         "Heap/Heap.h")
