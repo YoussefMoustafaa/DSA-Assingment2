@@ -1,46 +1,140 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-template <class T>
-class MinHeap;
+//template <class Item>
 
-template <class T>
-class MaxHeap{
+class Item {
+private:
+    string itemName;
+    string category;
+    int price;
+public:
+    bool operator==(const Item& other) const {
+        return price == other.price;
+    }
+    Item();
+    Item(const string &itemName, const string &category, int price);
+
+    bool operator<(const Item&);
+
+    friend ostream &operator<<(ostream &os, const Item &item);
+
+    void setItemName(const string &itemName);
+
+    friend std::istream& operator>>(std::istream& in, Item& st);
+
+    const string &getCategory() const;
+
+    void setCategory(const string &category);
+
+    int getPrice() const;
+
+    void setPrice(int price);
+
+    const string &getItemName() const;
+
+};
+const string &Item::getItemName() const {
+    return itemName;
+}
+
+void Item::setItemName(const string &itemName) {
+    Item::itemName = itemName;
+}
+
+const string &Item::getCategory() const {
+    return category;
+}
+
+void Item::setCategory(const string &category) {
+    Item::category = category;
+}
+
+int Item::getPrice() const {
+    return price;
+}
+
+void Item::setPrice(int price) {
+    Item::price = price;
+}
+
+ostream &operator<<(ostream &os, const Item &item) {
+    os << "ItemName: " << item.itemName << " Category: " << item.category
+       << " Price: " << item.price <<"$\n";
+    return os;
+}
+
+Item::Item(const string &itemName, const string &category, int price) : itemName(itemName), category(category),
+                                                                        price(price) {}
+
+std::istream &operator>>(istream &in, Item &st) {
+    in >> st.price >> st.category >> st.itemName;
+    return in;
+}
+bool Item::operator<(const Item &st)
+{
+    return this->price < st.price;
+}
+
+Item::Item() {
+    this->price=0;
+    this->itemName="";
+    this->category="";
+}
+
+class MinHeapPrice;
+class MaxHeapPrice{
 private:
     int position = 0 , size = 0 , z= 0 , flag = 0;
-    vector<T>heap;
-    friend class MinHeap<T>;
+    vector<Item>heap;
+    friend class MinHeapPrice;
     void remove();
     void maxHeapify(int n);
-    void buildingMaxHeap ();
-    MaxHeap<T>& operator=( MinHeap<T>& other) ;
+    void buildingMaxHeapPrice ();
 public:
-    MaxHeap();
-    MaxHeap(T arr[] , int n);
-    void insert(T n);
+    MaxHeapPrice();
+    MaxHeapPrice(Item arr[] , int n);
+    void insert(Item n);
     void display();
-    void delet();
+    void deletee();
     void heapSort();
     void desSort();
     void ascSort();
-    ~MaxHeap();
+    MaxHeapPrice& operator=( MinHeapPrice& other) ;
 
 
 };
 
-template<class T>
-void MaxHeap<T>::ascSort() {
+
+class MinHeapPrice{
+private:
+    int position = 0 , size = 0 , z = 0;
+    vector<Item>heap;
+//    vectorsorted;
+    friend class MaxHeapPrice;
+    void remove();
+    void minHeapify(int n);
+    void buildingMinHeapPrice();
+public:
+    MinHeapPrice();
+    MinHeapPrice(Item arr[] , int n);
+    void insert(Item n);
+    void display();
+    void deletee();
+    void heapSort();
+    void ascSort();
+    void desSort();
+    MinHeapPrice& operator=( MaxHeapPrice& other) ;
+
+
+};
+
+void MaxHeapPrice::ascSort() {
     heapSort();
 }
 
-template<class T>
-MaxHeap<T>::~MaxHeap() {
-
-}
-
-
-template<class T>
-MaxHeap<T>& MaxHeap<T>::operator=( MinHeap<T> &other)  {
+//
+MaxHeapPrice& MaxHeapPrice::operator=( MinHeapPrice & other)  {
     size = other.size;
     position = other.position;
     heap.clear();
@@ -52,31 +146,22 @@ MaxHeap<T>& MaxHeap<T>::operator=( MinHeap<T> &other)  {
 }
 
 
-//template<class T>
-//void MaxHeap<T>::desSort() {
-//    MinHeap<T> gg;
-//    this = gg;
-//    gg.heapSort();
-//    for(int i = 0 ; i < size ; i++){
-//        this->heap[i] = gg.heap[i];
-//    }
-//    displayMaxHeap();
-//}
 
 
-template<class T>
-void MaxHeap<T>::buildingMaxHeap() {
+
+//
+void MaxHeapPrice::buildingMaxHeapPrice() {
     int times = (size-2)/2;
     while(times >= 0) {
-        T temp = heap[times];
+        Item temp = heap[times];
         int p , child;
         p =  times;
         child = (p * 2) + 1 ;
         while(child < size){
             if(child + 1 < size) {
-                if (heap[child + 1] > heap[child]) child++;
+                if (heap[child + 1].getPrice() > heap[child].getPrice()) child++;
             }
-            if(heap[child] > heap[p]) {
+            if(heap[child].getPrice() > heap[p].getPrice()) {
                 swap(heap[child] , heap[p]);
                 p = child;
                 child = (child*2) + 1;
@@ -90,9 +175,9 @@ void MaxHeap<T>::buildingMaxHeap() {
 }
 
 
-template<class T>
-void MaxHeap<T>::remove() {
-    T temp = heap[0];
+//
+void MaxHeapPrice::remove() {
+    Item temp = heap[0];
 
     heap[0] = heap[--z];
     int p , child;
@@ -100,9 +185,9 @@ void MaxHeap<T>::remove() {
     child = (p * 2) + 1 ;
     while(child < z){
         if(child + 1 < size) {
-            if (heap[child + 1] > heap[child]) child++;
+            if (heap[child + 1].getPrice() > heap[child].getPrice()) child++;
         }
-        if(heap[child] > heap[p]) {
+        if(heap[child].getPrice() > heap[p].getPrice()) {
             swap(heap[child] , heap[p]);
             p = child;
             child = (child*2) +1 ;
@@ -113,12 +198,12 @@ void MaxHeap<T>::remove() {
 }
 
 
-template<class T>
-void MaxHeap<T>::maxHeapify(int n) {
+//
+void MaxHeapPrice::maxHeapify(int n) {
 //    heap.push_back(n);
     int p = n;
-    T temp = heap[p];
-    while(p > 0 && temp > heap[(p+1)/2 -1]){
+    Item temp = heap[p];
+    while(p > 0 && temp.getPrice() > heap[(p+1)/2 -1].getPrice()){
         heap[p] = heap[(p+1)/2 -1];
         p = (p+1)/2 -1;
 
@@ -130,8 +215,8 @@ void MaxHeap<T>::maxHeapify(int n) {
 
 
 
-template<class T>
-void MaxHeap<T>::delet() {
+//
+void MaxHeapPrice::deletee() {
     z = size;
     remove();
     size --;
@@ -140,25 +225,25 @@ void MaxHeap<T>::delet() {
 
 
 
-template <class T>
-MaxHeap<T>::MaxHeap() {
+//template <class Item>
+MaxHeapPrice::MaxHeapPrice() {
 //    this->heap.push_back(0);
 }
-template <class T>
-MaxHeap<T>::MaxHeap(T arr[] , int n) {
+//template <class Item>
+MaxHeapPrice::MaxHeapPrice(Item arr[] , int n) {
     size = n;
     for(int i = 0 ; i < n ; i++){
         heap.push_back(arr[i]);
     }
 
-    buildingMaxHeap();
+    buildingMaxHeapPrice();
 }
 
 
 
 
-template<class T>
-void MaxHeap<T>::display() {
+//
+void MaxHeapPrice::display() {
     for(int i = 0 ; i < size; i++){
         cout << heap[i] << ' ';
     }
@@ -168,10 +253,10 @@ void MaxHeap<T>::display() {
 
 
 
-template<class T>
-void MaxHeap<T>::insert(T n) {
+//
+void MaxHeapPrice::insert(Item n) {
     if(flag){
-        buildingMaxHeap();
+        buildingMaxHeapPrice();
         flag = 0;
     }
     heap.push_back(n);
@@ -181,16 +266,16 @@ void MaxHeap<T>::insert(T n) {
 
 
 
-template<class T>
-void MaxHeap<T>::heapSort() {
-    buildingMaxHeap();
+//
+void MaxHeapPrice::heapSort() {
+    buildingMaxHeapPrice();
     int x = size;
     z = size;
     for(int i = 0 ; i < x ; i++){
         remove();
     }
     flag = 1;
-//    buildingMaxHeap();
+//    buildingMaxHeapPrice();
 }
 
 
@@ -200,88 +285,62 @@ void MaxHeap<T>::heapSort() {
 //
 
 
-template <class T>
-class MinHeap{
-private:
-    int position = 0 , size = 0 , z = 0;
-    vector<T>heap;
-    vector<T>sorted;
-    friend class MaxHeap<T>;
-    void remove();
-    void minHeapify(int n);
-    void buildingMinHeap();
-public:
-    MinHeap();
-    MinHeap(T arr[] , int n);
-    void insert(T n);
-    void display();
-    void delet();
-    void heapSort();
-    void ascSort();
-    void desSort();
 
-//    ~MinHeap();
-    MinHeap<T>& operator=( MaxHeap<T>& other) ;
-
-
-};
-
-template<class T>
-void MinHeap<T>::desSort() {
+void MinHeapPrice::desSort() {
     heapSort();
 }
 
-template<class T>
-MinHeap<T>::MinHeap(T arr[], int n) {
+//
+MinHeapPrice::MinHeapPrice(Item arr[], int n) {
     size = n;
     for(int i = 0 ; i < n ; i++){
         heap.push_back(arr[i]);
     }
 
-    buildingMinHeap();
+    buildingMinHeapPrice();
 }
 
-template<class T>
-void MinHeap<T>::buildingMinHeap() {
+//
+void MinHeapPrice::buildingMinHeapPrice() {
     int w = size;
     int times = (size-2)/2;
     while(times >= 0) {
-        T temp = heap[times];
+        Item temp = heap[times];
         int p , child;
         p =  times;
         child = (p * 2) + 1 ;
         while(child < size){
             if(child + 1 < size) {
-                if (heap[child + 1] < heap[child]) child++;
+                if (heap[child + 1].getPrice() < heap[child].getPrice()) child++;
             }
-            if(heap[child] < heap[p]) {
+            if(heap[child].getPrice() < heap[p].getPrice()) {
                 swap(heap[child] , heap[p]);
                 p = child;
                 child = (child*2)+1;
             }
             else break;
         }
-//        displayMinHeap();
+//        displayMinHeapPrice();
         heap[p] = temp;
         times--;
-//        displayMinHeap();
+//        displayMinHeapPrice();
 
     }
 }
 
-//template<class T>
-//MinHeap<T>::~MinHeap() {
+//
+//MinHeapPrice::~MinHeapPrice() {
 //
 //}
 
 
 
 
-template<class T>
-void MinHeap<T>::minHeapify(int n ) {
+//
+void MinHeapPrice::minHeapify(int n ) {
     int p = n;
-    T temp = heap[p];
-    while(p > 0 && temp < heap[(p+1)/2 -1]){
+    Item temp = heap[p];
+    while(p > 0 && temp.getPrice() < heap[(p+1)/2 -1].getPrice()){
         heap[p] = heap[(p+1)/2 -1];
         p = (p+1)/2 -1;
 
@@ -293,18 +352,18 @@ void MinHeap<T>::minHeapify(int n ) {
 
 
 
-template<class T>
-void MinHeap<T>::remove() {
-    T temp = heap[0];
+//
+void MinHeapPrice::remove() {
+    Item temp = heap[0];
     heap[0] = heap[--z];
     int p , child;
     p = 0 ;
     child = (p * 2) + 1 ;
     while(child < z){
         if(child + 1 < size) {
-            if (heap[child + 1] < heap[child]) child++;
+            if (heap[child + 1].getPrice() < heap[child].getPrice()) child++;
         }
-        if(heap[child] < heap[p]) {
+        if(heap[child].getPrice() < heap[p].getPrice()) {
             swap(heap[child] , heap[p]);
             p = child;
             child = (child*2) +1;
@@ -316,8 +375,8 @@ void MinHeap<T>::remove() {
 
 
 
-template<class T>
-void MinHeap<T>::delet() {
+//
+void MinHeapPrice::deletee() {
     z = size;
     remove();
     size --;
@@ -326,15 +385,15 @@ void MinHeap<T>::delet() {
 
 
 
-template <class T>
-MinHeap<T>::MinHeap() {
+//template <class Item>
+MinHeapPrice::MinHeapPrice() {
 //    this->heap.push_back(0);
 }
 
 
 
-template<class T>
-void MinHeap<T>::display() {
+//
+void MinHeapPrice::display() {
     for(int i = 0 ; i < size; i++){
         cout << heap[i] << ' ';
     }
@@ -344,17 +403,17 @@ void MinHeap<T>::display() {
 
 
 
-template<class T>
-void MinHeap<T>::insert(T n) {
+//
+void MinHeapPrice::insert(Item n) {
     heap.push_back(n);
     minHeapify(size);
     size ++;
 }
 
 
-template<class T>
-void MinHeap<T>::heapSort() {
-    buildingMinHeap();
+
+void MinHeapPrice::heapSort() {
+    buildingMinHeapPrice();
     int x = size;
     z = size;
     for(int i = 0 ; i < x ; i++){
@@ -366,28 +425,28 @@ void MinHeap<T>::heapSort() {
 
 
 
-template<class T>
-MinHeap<T>& MinHeap<T>::operator=( MaxHeap<T> &other) {
 
-        size = other.size;
-        position = other.position;
-        heap.clear();
-        for(int i = 0 ; i < size ; i++) {
-            heap.push_back(other.heap[i]);
-        }
+MinHeapPrice& MinHeapPrice::operator=( MaxHeapPrice &other) {
+
+    size = other.size;
+    position = other.position;
+    heap.clear();
+    for(int i = 0 ; i < size ; i++) {
+        heap.push_back(other.heap[i]);
+    }
 
     return *this;
 }
 
 
-template<class T>
-void MaxHeap<T>::desSort() {
-    MinHeap<T> temp; // Assuming MaxHeap is a separate class
+
+void MaxHeapPrice::desSort() {
+    MinHeapPrice temp; // Assuming MaxHeapPrice is a separate class
 
 
     temp = *this;
 
-    temp.buildingMinHeap();
+    temp.buildingMinHeapPrice();
 
 
     temp.heapSort();
@@ -396,14 +455,14 @@ void MaxHeap<T>::desSort() {
     *this = temp;
 }
 
-template<class T>
-void MinHeap<T>::ascSort() {
-    MaxHeap<T> temp;
+//
+void MinHeapPrice::ascSort() {
+    MaxHeapPrice temp;
 
     temp = *this;
 
 
-    temp.buildingMaxHeap();
+    temp.buildingMaxHeapPrice();
 
 
     temp.heapSort();
@@ -411,15 +470,442 @@ void MinHeap<T>::ascSort() {
 
     *this = temp;
 }
-//int main() {
-//    MaxHeap<int> morio;
+class MinHeapName;
+class MaxHeapName{
+private:
+    int position = 0 , size = 0 , z= 0 , flag = 0;
+    vector<Item>heap;
+    friend class MinHeapName;
+    void remove();
+    void maxHeapify(int n);
+    void buildingMaxHeapName ();
+public:
+    MaxHeapName();
+    MaxHeapName(Item arr[] , int n);
+    void insert(Item n);
+    void display();
+    void deletee();
+    void heapSort();
+    void desSort();
+    void ascSort();
+    MaxHeapName& operator=( MinHeapName& other) ;
+
+
+};
+
+
+class MinHeapName{
+private:
+    int position = 0 , size = 0 , z = 0;
+    vector<Item>heap;
+//    vectorsorted;
+    friend class MaxHeapName;
+    void remove();
+    void minHeapify(int n);
+    void buildingMinHeapName();
+public:
+    MinHeapName();
+    MinHeapName(Item arr[] , int n);
+    void insert(Item n);
+    void display();
+    void deletee();
+    void heapSort();
+    void ascSort();
+    void desSort();
+    MinHeapName& operator=( MaxHeapName& other) ;
+
+
+};
+
+void MaxHeapName::ascSort() {
+    heapSort();
+}
+
+//
+MaxHeapName& MaxHeapName::operator=( MinHeapName & other)  {
+    size = other.size;
+    position = other.position;
+    heap.clear();
+    for(int i = 0 ; i < size ; i++) {
+        heap.push_back(other.heap[i]);
+    }
+
+    return *this;
+}
+
+
+
+
+
+//
+void MaxHeapName::buildingMaxHeapName() {
+    int times = (size-2)/2;
+    while(times >= 0) {
+        Item temp = heap[times];
+        int p , child;
+        p =  times;
+        child = (p * 2) + 1 ;
+        while(child < size){
+            if(child + 1 < size) {
+                if (heap[child + 1].getItemName() > heap[child].getItemName()) child++;
+            }
+            if(heap[child].getItemName() > heap[p].getItemName()) {
+                swap(heap[child] , heap[p]);
+                p = child;
+                child = (child*2) + 1;
+            }
+            else break;
+        }
+        heap[p] = temp;
+        times--;
+
+    }
+}
+
+
+//
+void MaxHeapName::remove() {
+    Item temp = heap[0];
+
+    heap[0] = heap[--z];
+    int p , child;
+    p = 0 ;
+    child = (p * 2) + 1 ;
+    while(child < z){
+        if(child + 1 < size) {
+            if (heap[child + 1].getItemName() > heap[child].getItemName()) child++;
+        }
+        if(heap[child].getItemName() > heap[p].getItemName()) {
+            swap(heap[child] , heap[p]);
+            p = child;
+            child = (child*2) +1 ;
+        }
+        else break;
+    }
+    heap[z] = temp;
+}
+
+
+//
+void MaxHeapName::maxHeapify(int n) {
+//    heap.push_back(n);
+    int p = n;
+    Item temp = heap[p];
+    while(p > 0 && temp.getItemName() > heap[(p+1)/2 -1].getItemName()){
+        heap[p] = heap[(p+1)/2 -1];
+        p = (p+1)/2 -1;
+
+    }
+
+    heap[p] = temp;
+
+}
+
+
+
+//
+void MaxHeapName::deletee() {
+    z = size;
+    remove();
+    size --;
+
+}
+
+
+
+//template <class Item>
+MaxHeapName::MaxHeapName() {
+//    this->heap.push_back(0);
+}
+//template <class Item>
+MaxHeapName::MaxHeapName(Item arr[] , int n) {
+    size = n;
+    for(int i = 0 ; i < n ; i++){
+        heap.push_back(arr[i]);
+    }
+
+    buildingMaxHeapName();
+}
+
+
+
+
+//
+void MaxHeapName::display() {
+    for(int i = 0 ; i < size; i++){
+        cout << heap[i] << ' ';
+    }
+    cout << endl;
+
+}
+
+
+
+//
+void MaxHeapName::insert(Item n) {
+    if(flag){
+        buildingMaxHeapName();
+        flag = 0;
+    }
+    heap.push_back(n);
+    maxHeapify(size);
+    size ++;
+}
+
+
+
+//
+void MaxHeapName::heapSort() {
+    buildingMaxHeapName();
+    int x = size;
+    z = size;
+    for(int i = 0 ; i < x ; i++){
+        remove();
+    }
+    flag = 1;
+//    buildingMaxHeapName();
+}
+
+
+
+//
+//
+//
+
+
+
+void MinHeapName::desSort() {
+    heapSort();
+}
+
+//
+MinHeapName::MinHeapName(Item arr[], int n) {
+    size = n;
+    for(int i = 0 ; i < n ; i++){
+        heap.push_back(arr[i]);
+    }
+
+    buildingMinHeapName();
+}
+
+//
+void MinHeapName::buildingMinHeapName() {
+    int w = size;
+    int times = (size-2)/2;
+    while(times >= 0) {
+        Item temp = heap[times];
+        int p , child;
+        p =  times;
+        child = (p * 2) + 1 ;
+        while(child < size){
+            if(child + 1 < size) {
+                if (heap[child + 1].getItemName() < heap[child].getItemName()) child++;
+            }
+            if(heap[child].getItemName() < heap[p].getItemName()) {
+                swap(heap[child] , heap[p]);
+                p = child;
+                child = (child*2)+1;
+            }
+            else break;
+        }
+//        displayMinHeapName();
+        heap[p] = temp;
+        times--;
+//        displayMinHeapName();
+
+    }
+}
+
+//
+//MinHeapName::~MinHeapName() {
+//
+//}
+
+
+
+
+//
+void MinHeapName::minHeapify(int n ) {
+    int p = n;
+    Item temp = heap[p];
+    while(p > 0 && temp.getItemName() < heap[(p+1)/2 -1].getItemName()){
+        heap[p] = heap[(p+1)/2 -1];
+        p = (p+1)/2 -1;
+
+    }
+
+    heap[p] = temp;
+
+}
+
+
+
+//
+void MinHeapName::remove() {
+    Item temp = heap[0];
+    heap[0] = heap[--z];
+    int p , child;
+    p = 0 ;
+    child = (p * 2) + 1 ;
+    while(child < z){
+        if(child + 1 < size) {
+            if (heap[child + 1].getItemName() < heap[child].getItemName()) child++;
+        }
+        if(heap[child].getItemName() < heap[p].getItemName()) {
+            swap(heap[child] , heap[p]);
+            p = child;
+            child = (child*2) +1;
+        }
+        else break;
+    }
+    heap[z] = temp;
+}
+
+
+
+//
+void MinHeapName::deletee() {
+    z = size;
+    remove();
+    size --;
+
+}
+
+
+
+//template <class Item>
+MinHeapName::MinHeapName() {
+//    this->heap.push_back(0);
+}
+
+
+
+//
+void MinHeapName::display() {
+    for(int i = 0 ; i < size; i++){
+        cout << heap[i] << ' ';
+    }
+    cout << endl;
+
+}
+
+
+
+//
+void MinHeapName::insert(Item n) {
+    heap.push_back(n);
+    minHeapify(size);
+    size ++;
+}
+
+
+
+void MinHeapName::heapSort() {
+    buildingMinHeapName();
+    int x = size;
+    z = size;
+    for(int i = 0 ; i < x ; i++){
+        remove();
+    }
+
+
+}
+
+
+
+
+MinHeapName& MinHeapName::operator=( MaxHeapName &other) {
+
+    size = other.size;
+    position = other.position;
+    heap.clear();
+    for(int i = 0 ; i < size ; i++) {
+        heap.push_back(other.heap[i]);
+    }
+
+    return *this;
+}
+
+
+
+void MaxHeapName::desSort() {
+    MinHeapName temp; // Assuming MaxHeapName is a separate class
+
+
+    temp = *this;
+
+    temp.buildingMinHeapName();
+
+
+    temp.heapSort();
+
+
+    *this = temp;
+}
+
+//
+void MinHeapName::ascSort() {
+    MaxHeapName temp;
+
+    temp = *this;
+
+
+    temp.buildingMaxHeapName();
+
+
+    temp.heapSort();
+
+
+    *this = temp;
+}
+int main() {
+    Item gg;
+    gg.setItemName("a");
+    gg.setCategory("dakj");
+    gg.setPrice(50);
+    Item g;
+    g.setItemName("b");
+    g.setCategory("dakj");
+    g.setPrice(70);
+    Item gh;
+    gh.setItemName("c");
+    gh.setCategory("dakj");
+    gh.setPrice(9);
+    Item gj;
+    gj.setItemName("d");
+    gj.setCategory("dakj");
+    gj.setPrice(10);
+    Item gl;
+    gl.setItemName("e");
+    gl.setCategory("dakj");
+    gl.setPrice(20);
+    Item gm;
+    gm.setItemName("f");
+    gm.setCategory("dakj");
+    gm.setPrice(40);
+    Item gu;
+    gu.setItemName("g");
+    gu.setCategory("dakj");
+    gu.setPrice(90);
+    MinHeapPrice morio;
+    morio.insert(gu);
+    morio.insert(gm);
+    morio.insert(gl);
+    morio.insert(g);
+    morio.insert(gg);
+    morio.insert(gj);
+    morio.insert(gh);
+//    morio.deletee();
+//    morio.display();
+//    morio.desSort();
+    morio.display();
 //    morio.insert(5);
 //    morio.insert(4);
 //    morio.insert(3);
 //    morio.insert(2);
 //    morio.insert(1);
 //    morio.insert(9);
-//    morio.delet();
+//    morio.deletee();
 //    morio.display();
 //    morio.heapSort();
 //    morio.display();
@@ -427,25 +913,25 @@ void MinHeap<T>::ascSort() {
 //    morio.display();
 //    morio.desSort();
 //    morio.display();
-//
+
+    cout<<endl<<endl;
+//    int arr[5] = { 6 , 1 , 2, 3, 4};
+//    MaxHeapPrice<int> jj(arr , 5);
+//    jj.display();
+//    MinHeapPrice<int> gg(arr, 5);
+//    gg.display();
+//    morio.insertMaxHeapPrice(9);
+//    morio.displayMaxHeapPrice();
 //    cout<<endl<<endl;
-////    int arr[5] = { 6 , 1 , 2, 3, 4};
-////    MaxHeap<int> jj(arr , 5);
-////    jj.display();
-////    MinHeap<int> gg(arr, 5);
-////    gg.display();
-////    morio.insertMaxHeap(9);
-////    morio.displayMaxHeap();
-////    cout<<endl<<endl;
-//cout<<endl<<endl;
-//    MinHeap<int> morio2;
+    cout<<endl<<endl;
+//    MinHeapPrice<int> morio2;
 //    morio2.insert(5);
 //    morio2.insert(4);
 //    morio2.insert(3);
 //    morio2.insert(2);
 //    morio2.insert(1);
 //    morio2.insert(9);
-////    morio2.delet();
+////    morio2.deletee();
 //    morio2.display();
 //    morio2.heapSort();
 //    morio2.display();
@@ -453,6 +939,6 @@ void MinHeap<T>::ascSort() {
 //    morio2.display();
 //    morio2.ascSort();
 //    morio2.display();
-//
-//
-//}
+
+
+}
