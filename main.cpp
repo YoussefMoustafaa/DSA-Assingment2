@@ -2,7 +2,7 @@
 #include "Binary Search Trees (BST)/BinarySearchTree.cpp"
 #include "AVL Trees/AVLTree.h"
 #include "Heap/main.cpp"
-
+ifstream file("C:\\Users\\001\\Documents\\GitHub\\DSA-Assingment2\\Output files\\items.txt");
 auto comparePrice = [](const Item &a, const Item &b)
 {
     if (a.getPrice() < b.getPrice())
@@ -21,19 +21,51 @@ auto compareName = [](const Item &a, const Item &b)
     else
         return 1;
 };
-
+bool opened = 0;
 vector<Item> vectorForNormalInput; // for sorting items the order they were entered in
-
+template <typename TreeType>
+void readItems(ifstream &fileName, TreeType &tree)
+{
+    if (!fileName.is_open())
+    {
+        cout << "Failed to open the file." << endl;
+    }
+    int size;
+    fileName >> size;
+    fileName.ignore();
+    Item itemList[size];
+    for (int i = 0; i < size; ++i)
+    {
+        string name, category;
+        int price;
+        getline(fileName, name);
+        fileName >> category >> price;
+        fileName.ignore();
+        itemList[i] = Item(name, category, price);
+    }
+    fileName.close();
+    for (int i = 0; i < size; i++)
+    {
+        tree.insert(itemList[i]);
+    }
+    if(!opened){
+        opened=1;
+        for (int i = 0; i < size; i++)
+        {
+            vectorForNormalInput.push_back(itemList[i]);
+        }
+    }
+    fileName.open("C:\\Users\\001\\Documents\\GitHub\\DSA-Assingment2\\Output files\\items.txt");
+}
 void BinaryTreeMenu()
 {
     // initiating instances
     binarySearchTreeType<Item> BSTname(compareName);
     binarySearchTreeType<Item> BSTprice(comparePrice);
+    string nameOfDeleted;
+    Item itemToBeDeleted;
     bool loop = true;
 
-    string nameOfDeleted;
-
-    Item itemToBeDeleted;
     while (loop)
     {
         cout << "1-Add item\n"
@@ -57,7 +89,6 @@ void BinaryTreeMenu()
 
                 readItems(file, BSTname);
                 readItems(file, BSTprice);
-                file.close();
             }
             else
             {
@@ -131,36 +162,9 @@ void BinaryTreeMenu()
     }
 }
 
-ifstream file("C:\\Users\\001\\Documents\\GitHub\\DSA-Assingment2\\Output files\\items.txt");
+
 MinHeap<Item> minHeapItems;
 MaxHeap<Item> maxHeapItem;
-template <typename TreeType>
-void readItems(ifstream &fileName, TreeType &tree)
-{
-    if (!fileName.is_open())
-    {
-        cout << "Failed to open the file." << endl;
-    }
-    int size;
-    fileName >> size;
-    fileName.ignore();
-    Item itemList[size];
-    for (int i = 0; i < size; ++i)
-    {
-        string name, category;
-        int price;
-        getline(fileName, name);
-        fileName >> category >> price;
-        fileName.ignore();
-        itemList[i] = Item(name, category, price);
-    }
-    fileName.close();
-    for (int i = 0; i < size; i++)
-    {
-        vectorForNormalInput.push_back(itemList[i]);
-        tree.insert(itemList[i]);
-    }
-}
 void minHeapMenu()
 {
     cout << "1-Add item\n"
@@ -214,7 +218,7 @@ void minHeapMenu()
         minHeapMenu();
         break;
     case 4:
-        minHeapItems.ascSort();
+        //minHeapItems.ascSort();
         minHeapMenu();
         break;
 
@@ -344,6 +348,7 @@ void mainMenu()
     switch (x)
     {
     case 1:
+        BinaryTreeMenu();
         break;
     case 2:
         heapMenu();
@@ -358,22 +363,6 @@ void mainMenu()
 }
 int main()
 {
-    // mainMenu();
-    // binarySearchTreeType<int> b;
-    // b.insert(1);
-    // b.insert(2);
-    // b.insert(3);
-    // b.insert(4);
-    // b.insert(5);
-    // b.insert(6);
-    // b.insert(7);
-    // b.insert(8);
-    // b.insert(9);
+     mainMenu();
 
-    // b.descendingorderTraversal();
-    // cout << endl;
-    // b.remove(9);
-    // b.inorderTraversal();
-
-    BinaryTreeMenu();
 }
